@@ -1,5 +1,6 @@
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,13 +44,20 @@ public class Client {
             //Create file & buffered input stream to read size
             InputStream fs = new FileInputStream(f);
             BufferedInputStream bis = new BufferedInputStream(fs);
-
+            String fromServer = "";
             //writing file size to server
             while((size = bis.read(buffer)) > 0){
                 dos.write(buffer, 0, size);
                 dos.flush();
 
             }
+
+            InputStream is = socket.getInputStream();
+            BufferedInputStream bis1 = new BufferedInputStream(is);
+            DataInputStream dis1 = new DataInputStream(bis1);
+            fromServer = dis1.readUTF();
+
+            System.out.println(fromServer);
             
             dos.close();
             bis.close();
